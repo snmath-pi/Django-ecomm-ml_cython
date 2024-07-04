@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended Products</title>
+</head>
+<body>
+    <h1>Recommended Products</h1>
+    <ul>
+        {% for product in recommended_products %}
+            <li>
+                {{ product.name }}
+                <button onclick="likeProduct('{{ product.id }}')">Like</button>
+                <button onclick="dislikeProduct('{{ product.id }}')">Dislike</button>
+            </li>
+        {% endfor %}
+    </ul>
+    <script>
+        function likeProduct(productId) {
+            fetch('/like_product/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({product: productId})
+            });
+        }
+
+        function dislikeProduct(productId) {
+            fetch('/dislike_product/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({product: productId})
+            });
+        }
+    </script>
+</body>
+</html>
